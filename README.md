@@ -36,4 +36,4 @@ Com isso, o banco de dados estará pronto para uso.
 - [David Vinícius](https://github.com/Ishinaru)
 - [Igor Alex](https://github.com/Kronossss)
 - [Thompson Raul](https://github.com/ThompsonRaul)
-- [Andressa Peixoto]([https://github.com/](https://github.com/apnonato)
+- [Andressa Peixoto](https://github.com/apnonato)
