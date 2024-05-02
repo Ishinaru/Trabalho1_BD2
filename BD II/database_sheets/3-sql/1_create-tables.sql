@@ -1,24 +1,23 @@
 CREATE TABLE Livros (
-    LivroID SERIAL PRIMARY KEY,
+    LivroID INT AUTO_INCREMENT PRIMARY KEY,
     Titulo VARCHAR(255) NOT NULL,
     DataPublicacao TIMESTAMP NOT NULL,
-    ISBN CHAR(50) NOT NULL,
     NumPaginas INT NOT NULL,
     Sinopse TEXT NOT NULL
 );
 
 CREATE TABLE Autores (
-    AutorID SERIAL PRIMARY KEY,
-    NomeAutor VARCHAR(100) NOT NULL
+    AutorID INT AUTO_INCREMENT PRIMARY KEY,
+    NomeAutor VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE Editoras (
-    EditoraID SERIAL PRIMARY KEY,
-    NomeEditora VARCHAR(255) NOT NULL 
+    EditoraID INT AUTO_INCREMENT PRIMARY KEY,
+    NomeEditora VARCHAR(150) NOT NULL 
 );
 
 CREATE TABLE Generos (
-    GeneroID SERIAL PRIMARY KEY,
+    GeneroID INT AUTO_INCREMENT PRIMARY KEY,
     NomeGenero VARCHAR(50) NOT NULL
 );
 
@@ -47,14 +46,16 @@ CREATE TABLE LivrosGeneros (
 );
 
 CREATE TABLE Usuarios (
-    UsuarioID SERIAL PRIMARY KEY,
+    UsuarioID INT AUTO_INCREMENT PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    Senha VARCHAR(255) NOT NULL
+    Email VARCHAR(150) NOT NULL UNIQUE,
+    Senha VARCHAR(150) NOT NULL,
+    Nivel VARCHAR(20) NOT NULL DEFAULT 'Bronze',
+    Quantidade_Avaliacoes INT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Avaliacoes (
-    AvaliacaoID SERIAL PRIMARY KEY,
+    AvaliacaoID INT AUTO_INCREMENT PRIMARY KEY,
     LivroID INT NOT NULL,
     UsuarioID INT NOT NULL,
     Nota DECIMAL(2, 1) NOT NULL CHECK (Nota >= 0 AND Nota <= 5),
@@ -63,4 +64,15 @@ CREATE TABLE Avaliacoes (
     FOREIGN KEY (LivroID) REFERENCES Livros(LivroID),
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID),
     UNIQUE (LivroID, UsuarioID)
+);
+
+CREATE TABLE HistoricoLivrosDeletados (
+    DeletadoID INT AUTO_INCREMENT PRIMARY KEY,
+    LivroID INT,
+    Titulo VARCHAR(255),
+    DataDeletado DATETIME
+);
+
+CREATE TABLE ContagemLivros (
+    TotalLivros INT
 );

@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const filePath = "../json/livros.json";
+const filePath = "./2-json/livros.json";
 const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
 let contlivro = 0;
@@ -25,13 +25,22 @@ data.forEach((item) => {
   let dataPublicacao = livro.dataPublicacao;
   if (dataPublicacao.match(/^\d{4}$/)) {
     // Apenas ano
-    dataPublicacao += "-01-01";
+    dataPublicacao += "-01-01 00:00:00";
   } else if (dataPublicacao.match(/^\d{4}-\d{2}$/)) {
     // Ano e mês
-    dataPublicacao += "-01";
+    dataPublicacao += "-01 00:00:00";
+  } else {
+    // Adiciona '00:00:00' no final da data
+    dataPublicacao += " 00:00:00";
   }
 
-  sqlContent += `INSERT INTO Livros (Titulo, DataPublicacao, ISBN, NumPaginas, Sinopse) VALUES ('${livro.titulo}', '${dataPublicacao}', '${livro.isbn}', ${livro.numPaginas}, '${livro.sinopse}');\n`;
+  // Verifica se a data de publicação é anterior a 1970
+  if (dataPublicacao < "1970-01-01 00:00:00") {
+    // Define a data de publicação como 1970-01-01 00:00:00
+    dataPublicacao = "1970-01-01 00:00:00";
+  }
+
+  sqlContent += `INSERT INTO Livros (Titulo, DataPublicacao, NumPaginas, Sinopse) VALUES ('${livro.titulo}', '${dataPublicacao}', ${livro.numPaginas}, '${livro.sinopse}');\n`;
   contlivro += 1;
 
   autor.nome_autor.forEach((nome) => {
@@ -71,7 +80,7 @@ livroEditoraRelations.forEach((relation) => {
 livroGeneroRelations.forEach((relation) => {
   sqlContent += `INSERT INTO LivrosGeneros (LivroID, GeneroID) VALUES ${relation};\n`;
 });
-const outputFile = "../sql/insere_livros_generos_editoras_relacoes.sql";
+const outputFile = "./3-sql/insere_livros_generos_editoras_relacoes.sql";
 fs.writeFileSync(outputFile, sqlContent);
 
 console.log(`Arquivo '${outputFile}' gerado com sucesso.`);

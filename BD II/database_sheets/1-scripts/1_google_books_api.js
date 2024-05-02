@@ -57,21 +57,6 @@ function fetchWithHttps(url) {
   });
 }
 
-function getIsbn(industryIdentifiers) {
-  // Pra ver se industryIdentifiers está definido e tem ao menos um elemento.
-  if (Array.isArray(industryIdentifiers) && industryIdentifiers.length > 0) {
-    // Procura um identificador do tipo ISBN_13, caso não encontre, busca por um ISBN_10.
-    const isbnIdentifier =
-      industryIdentifiers.find((identifier) => identifier.type === "ISBN_13") ||
-      industryIdentifiers.find((identifier) => identifier.type === "ISBN_10");
-    // Se encontrou um identificador, retorna seu valor.
-    if (isbnIdentifier) {
-      return removeApostrophes(isbnIdentifier.identifier);
-    }
-  }
-  // Retorna "N/A" se nenhum identificador ISBN for encontrado ou se industryIdentifiers não estiver definido.
-  return "N/A";
-}
 function removeApostrophes(value) {
   if (typeof value === "string") {
     return value.replace(/'/g, "");
@@ -83,6 +68,14 @@ function removeApostrophes(value) {
     return String(value).replace(/'/g, "");
   }
   return value; // Retorna o valor como está se for null/undefined.
+}
+
+function formatAuthors(authors) {
+  if (!authors) return ["N/A"];
+  return authors
+    .join(", ")
+    .split(", ")
+    .map((author) => removeApostrophes(author.trim()));
 }
 
 async function fetchBooksForTheme(theme) {
@@ -101,7 +94,6 @@ async function fetchBooksForTheme(theme) {
         livro: {
           titulo: removeApostrophes(volumeInfo.title) || "N/A",
           dataPublicacao: volumeInfo.publishedDate || "1970-01-01",
-          isbn: getIsbn(volumeInfo.industryIdentifiers),
           numPaginas: volumeInfo.pageCount || 0,
           sinopse:
             searchInfo && searchInfo.textSnippet
@@ -110,7 +102,7 @@ async function fetchBooksForTheme(theme) {
         },
         autor: {
           nome_autor: volumeInfo.authors
-            ? volumeInfo.authors.map((author) => removeApostrophes(author))
+            ? formatAuthors(volumeInfo.authors)
             : ["N/A"],
         },
         editora: {
@@ -141,7 +133,7 @@ async function fetchAllBooks() {
     allBooks = allBooks.concat(booksForTheme);
     console.log(`Livros coletados para o tema ${tema}:`, booksForTheme.length);
   }
-  const outputFile = "../json/livros.json";
+  const outputFile = "./2-json/livros.json";
   fs.writeFileSync(outputFile, JSON.stringify(allBooks, null, 2));
   console.log(
     `Arquivo ${outputFile} criado com sucesso com ${allBooks.length} livros.`

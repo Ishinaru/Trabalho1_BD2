@@ -44,7 +44,7 @@ const userInserts = generateUserInserts(numUsers);
 const reviewInserts = generateReviewInserts(numReviews, numUsers, 1240);
 
 // Escreve os comandos de inserção em um arquivo
-const outputFile = "../sql/insere_users_avaliacoes.sql";
+const outputFile = "./sql/insere_users_avaliacoes.sql";
 fs.writeFileSync(outputFile, userInserts + reviewInserts);
 
 console.log(`Arquivo '${outputFile}' gerado com sucesso.`);
