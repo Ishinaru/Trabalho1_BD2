@@ -74,5 +74,5 @@ CREATE TABLE HistoricoLivrosDeletados (
 );
 
 CREATE TABLE ContagemLivros (
-    TotalLivros INT
+    TotalLivros INT NOT NULL DEFAULT 0
 );

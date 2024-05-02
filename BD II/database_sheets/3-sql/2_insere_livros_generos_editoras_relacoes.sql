@@ -1,3 +1,4 @@
+SET SQL_SAFE_UPDATES = 0;
 INSERT INTO Livros (Titulo, DataPublicacao, NumPaginas, Sinopse) VALUES ('Ação e reação', '2002-01-01 00:00:00', 446, 'N/A');
 INSERT INTO Autores (NomeAutor) VALUES ('Jean Starobinski');
 INSERT INTO Editoras (NomeEditora) VALUES ('Editora Record');
@@ -6782,3 +6783,4 @@ INSERT INTO LivrosGeneros (LivroID, GeneroID) VALUES (1237, 105);
 INSERT INTO LivrosGeneros (LivroID, GeneroID) VALUES (1238, 105);
 INSERT INTO LivrosGeneros (LivroID, GeneroID) VALUES (1239, 106);
 INSERT INTO LivrosGeneros (LivroID, GeneroID) VALUES (1240, 107);
+SET SQL_SAFE_UPDATES = 1;

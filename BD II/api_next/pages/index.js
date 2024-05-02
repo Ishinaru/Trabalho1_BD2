@@ -4,7 +4,10 @@ function Home() {
 
   const links = [
     { href: "/books", label: "Listar Livros" },
+    { href: "/books/details", label: "Listar Livro Específico" },
     { href: "/reviews", label: "Listar Avaliações" },
+    { href: "/reviews/details", label: "Listar Avaliações por Usuário" },
+    { href: "/users", label: "Listar Usuários" },
     { href: "/authors", label: "Listar Autores" },
     { href: "/books/most_recent", label: "Mostrar Livro Mais Recente" },
     { href: "/books/books_per_author", label: "Listar Livros por Autor" },
@@ -14,7 +17,8 @@ function Home() {
     { href: "/books/delete", label: "Deletar Livro" },
     { href: "/books/delete/deleted_books", label: "Mostrar Livros Deletados" },
     { href: "/authors/update", label: "Atualizar Autor" },
-  ];
+    { href: "/books/update", label: "Atualizar Livro" }
+];
 
   links.sort((a, b) => a.label.localeCompare(b.label));
 
